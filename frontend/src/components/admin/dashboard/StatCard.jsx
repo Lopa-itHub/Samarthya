@@ -1,12 +1,12 @@
 import React from 'react'
 
-const Stats = () => {
+const StatCard = () => {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mt-4 lg:mt-10 max-w-3xl">
 
         <div className="bg-gray-800 shadow-md rounded-xl p-5">
             <p className="text-white text-sm">
-            Jobs Posted
+            Total Users
             </p>
             <p className="text-3xl text-white font-bold mt-1">
             12
@@ -15,28 +15,28 @@ const Stats = () => {
 
         <div className="bg-gray-800 shadow-md rounded-xl p-5">
             <p className="text-white text-sm">
-            Applications
+            Employees
             </p>
             <p className="text-3xl text-white font-bold mt-1">
-            25
+            75
             </p>
         </div>
 
         <div className="bg-gray-800 shadow-md rounded-xl p-5">
             <p className="text-white text-sm">
-            Workers Hired
+            Employers
             </p>
             <p className="text-3xl text-white font-bold mt-1">
-            8
+            30
             </p>
         </div>
 
         <div className="bg-gray-800 shadow-md rounded-xl p-5">
             <p className="text-white text-sm">
-            Active Jobs
+            Jobs
             </p>
             <p className="text-3xl text-white font-bold mt-1">
-            3
+            55
             </p>
         </div>
 
@@ -44,4 +44,5 @@ const Stats = () => {
   )
 }
 
-export default Stats
+export default StatCard
+
