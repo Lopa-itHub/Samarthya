@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 const EditProfile = () => {
 
@@ -14,6 +15,13 @@ const EditProfile = () => {
     low: ["Cleaner", "Helper", "Delivery Boy"]
   };
 
+  const skillOptions = [
+    { value: "Photography", label: "Photography" },
+    { value: "Videography", label: "Videography" },
+    { value: "Editing", label: "Editing" },
+    { value: "Makeup", label: "Makeup" },
+  ];
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -23,7 +31,7 @@ const EditProfile = () => {
     location: "",
     openToWork: false,
     about: "",
-    skills: ""
+    skills: []
   });
 
   const [profilePreview, setProfilePreview] = useState("");
@@ -50,7 +58,7 @@ const EditProfile = () => {
         location: profile?.location || "",
         openToWork: profile?.openToWork || false,
         about: profile?.about || "",
-        skills: profile?.skills?.join(", ") || ""
+        skills: profile?.skills || []
       });
 
       setProfilePreview(user.profileImage || "");
@@ -92,10 +100,16 @@ const EditProfile = () => {
     const formData = new FormData();
 
     Object.keys(form).forEach(key => {
-      formData.append(key, form[key]);
-    });
 
-    formData.append("skills", form.skills);
+      if (key === "skills") {
+        form.skills.forEach(skill => {
+          formData.append("skills", skill);
+        });
+      } else {
+        formData.append(key, form[key]);
+      }
+
+    });
 
     if (profileFile) formData.append("profileImage", profileFile);
     if (coverFile) formData.append("coverImage", coverFile);
@@ -268,12 +282,16 @@ const EditProfile = () => {
         />
 
         {/* 🔹 SKILLS */}
-        <input
-          name="skills"
-          value={form.skills}
-          onChange={handleChange}
-          placeholder="Skills (comma separated)"
-          className="input"
+        <Select
+          isMulti
+          options={skillOptions}
+          value={skillOptions.filter(opt => form.skills.includes(opt.value))}
+          onChange={(selected) => {
+            setForm(prev => ({
+              ...prev,
+              skills: selected.map(s => s.value)
+            }));
+          }}
         />
 
         {/* 🔹 BUTTON */}
