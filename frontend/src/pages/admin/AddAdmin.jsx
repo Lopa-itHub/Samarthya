@@ -17,6 +17,7 @@ const AddAdmin = () => {
     email: "",
     password: "",
     confirmPassword: ""
+    
   });
 
   const [errors, setErrors] = useState({});
@@ -71,7 +72,7 @@ const AddAdmin = () => {
         name: form.name,
         email: form.email,
         password: form.password,
-        role: form.role
+        role: "Admin"
       },
         {
           withCredentials: true
