@@ -1,81 +1,142 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RecentUsers = () => {
 
-    const users = [
-    {
-      name: "Rahul Das",
-      role: "Employee",
-      time: "2 days ago",
-      status: "Active",
-    },
-    {
-      name: "Anita Sharma",
-      role: "Employer",
-      time: "Today",
-      status: "Inactive",
-    },
-    {
-      name: "Kiran Patel",
-      role: "Employee",
-      time: "Yesterday",
-      status: "Active",
-    },
-  ];
+  const navigate = useNavigate();
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+
+    fetchRecentUsers();
+
+  }, []);
+
+  const fetchRecentUsers = async () => {
+
+    try {
+
+      const response = await axios.get(
+        "http://localhost:3000/api/admin/dashboard",
+        {
+          withCredentials: true,
+        }
+      );
+
+      setUsers(response.data.recentUsers);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
 
   return (
-    <div className="bg-white shadow rounded-xl p-6 mt-6">
-      {/* Title */}
+
+    <div className="bg-white shadow rounded-2xl p-6 mt-6 border border-slate-100">
+
+      {/* Header */}
       <div className="flex justify-between items-center mb-5">
-        <p className="text-2xl font-bold">
-          Recent users
+
+        <p className="text-2xl font-bold text-slate-800">
+
+          Recent Users
+
         </p>
 
-        <button className="text-cyan-600 text-sm font-medium hover:underline">
-          View all
-        </button>
+        <button
+          onClick={() => navigate("/admin/users")}
+          className="text-cyan-600 text-sm font-medium hover:underline"
+        >
+         View all
+       </button>
+
       </div>
 
-      {/* Job List */}
+      {/* Users List */}
       <div className="flex flex-col divide-y">
-        {users.map((users, index) => (
+
+        {users.map((user) => (
+
           <div
-            key={index}
+            key={user._id}
             className="flex justify-between items-center py-4"
           >
-            {/* Left Side */}
-            <div className="flex flex-col">
-              <p className="font-semibold text-lg">
-                {users.name}
-              </p>
 
-              <div className="flex gap-4 text-sm text-gray-500 mt-1">
-                <span>{users.role}</span>
-                <span>{users.time}</span>
+            {/* Left */}
+            <div className="flex items-center gap-4">
+
+              <img
+                src={
+                  user.profileImage ||
+                  "https://i.pravatar.cc/150?img=5"
+                }
+                alt="profile"
+                className="w-12 h-12 rounded-full object-cover"
+              />
+
+              <div>
+
+                <p className="font-semibold text-slate-800">
+
+                  {user.name}
+
+                </p>
+
+                <div className="flex gap-4 text-sm text-gray-500 mt-1">
+
+                  <span className="capitalize">
+
+                    {user.role}
+
+                  </span>
+
+                  <span>
+
+                    {
+                      new Date(user.createdAt)
+                      .toLocaleDateString()
+                    }
+
+                  </span>
+
+                </div>
+
               </div>
+
             </div>
 
-            {/* Right Side */}
+            {/* Right */}
             <div className="flex items-center gap-4">
-              <span
-                className={`px-3 py-1 rounded text-sm font-medium ${
-                  users.status === "Active"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-gray-200 text-gray-700"
-                }`}
-              >
-                {users.status}
+
+              <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
+
+                Active
+
               </span>
 
-              <button className="text-cyan-600 text-sm font-medium hover:underline">
-                View
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
+              <button
+                onClick={() => navigate("/admin/users")}
+                className="text-cyan-600 text-sm font-medium hover:underline"
+              >
 
-export default RecentUsers
+                View
+
+              </button>
+
+            </div>
+
+          </div>
+
+        ))}
+
+      </div>
+
+    </div>
+  );
+};
+
+export default RecentUsers;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -14,7 +14,10 @@ const AddAdmin = () => {
     email: "",
     password: "",
     confirmPassword: ""
+    
   });
+
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
 
@@ -68,7 +71,7 @@ const AddAdmin = () => {
         name: form.name,
         email: form.email,
         password: form.password,
-        role: form.role
+        role: "Admin"
       },
       {
         withCredentials: true
@@ -91,6 +94,10 @@ const AddAdmin = () => {
           toast.error(err.response.data.message);
         } else {
           toast.error("Something went wrong");
+
+          setTimeout(() => {
+             navigate("/admin/users?role=Admin");
+          }, 1500);
         }
       })
 
@@ -104,8 +111,8 @@ const AddAdmin = () => {
         >
             <div className="w-[95%] lg:w-[50%] bg-white  rounded-xl p-4 flex flex-col shadow-lg shadow-gray-600">
 
-                <h2 className="text-2xl text-center text-black font-semibold my-5">
-                Add another Admin
+                <h2 className="text-4xl text-center text-blue-800 font-semibold my-5">
+                Add Admin
                 </h2>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-2">

@@ -1,14 +1,59 @@
+const postedJobModel = require("../models/postedJob.model");
+
+
+// ================= GET ALL JOBS =================
+
 async function adminJobsController(req, res) {
+
   try {
+
+    const jobs = await postedJobModel.find();
+
     res.status(200).json({
-      message: "Admin Jobs-details page accessed successfully",
-      user: req.user
+      success: true,
+      jobs,
     });
+
   } catch (error) {
+
+    console.log(error);
+
     res.status(500).json({
-      message: "Server error"
+      message: "Server error",
     });
+
   }
+
 }
 
-module.exports = adminJobsController;
+
+// ================= DELETE JOB =================
+
+async function deleteJob(req, res) {
+
+  try {
+
+    const { id } = req.params;
+
+    await postedJobModel.findByIdAndDelete(id);
+
+    res.status(200).json({
+      message: "Job removed successfully",
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+
+  }
+
+}
+
+module.exports = {
+  adminJobsController,
+  deleteJob,
+};
