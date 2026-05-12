@@ -1,19 +1,18 @@
-import React from 'react';
-import { FiCheckCircle } from 'react-icons/fi';
+import React from 'react'
 
-const EmployeeInfo = ({ user, profile }) => {
+const EmployeeInfo = ({user, profile}) => {
   return (
     <div>
       <div className="flex flex-col h-72 lg:h-85 justify-end gap-1">
 
         {/* Name */}
-        <p className="text-lg lg:text-3xl font-bold">
+        <p className="text-lg lg:text-xl font-bold">
           {user?.name || "Your Name"}
         </p>
 
         {/* Job Type */}
-        <p className="text-sm lg:text-lg font-semibold text-gray-700">
-          {profile?.jobType || "Job Type"}
+        <p className="text-sm lg:text-md font-semibold text-gray-700">
+          Jog type: {profile?.jobType || "Not specified"}
         </p>
 
         {/* Category */}
@@ -33,15 +32,9 @@ const EmployeeInfo = ({ user, profile }) => {
           </p>
         )}
 
-        {/* Verified */}
-        <div className="flex items-center gap-2 mt-2 text-cyan-700 text-sm lg:text-md">
-          <FiCheckCircle />
-          {user?.isVerified ? "Verified" : "Not Verified"}
-        </div>
-
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EmployeeInfo;
+export default EmployeeInfo
