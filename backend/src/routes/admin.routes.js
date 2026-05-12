@@ -4,7 +4,7 @@ const roleMiddleware = require("../middlewares/role.middleware");
 
 const adminDashboardController = require("../controllers/adminDashboard.controller");
 
-const addAdmin = require("../controllers/adminAddAdmin.controller");
+const {addAdmin} = require("../controllers/adminAddAdmin.controller");
 
 const {
   adminJobsController,
