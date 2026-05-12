@@ -50,6 +50,11 @@ const LoginForm = () => {
           JSON.stringify(res.data.user)
         );
 
+        localStorage.setItem(
+          "token",
+          res.data.token
+        );
+
         toast.success("Login successful!", {
           position: "top-right",
           autoClose: 1500,
