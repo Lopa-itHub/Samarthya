@@ -26,6 +26,11 @@ const usersSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isBlocked: {
+    type: Boolean,
+    default: false
+},
+
     verificationStatus: {
         type: String,
         enum: ["none", "pending", "approved", "rejected"],
