@@ -26,7 +26,8 @@ router.get("/profile-data", authMiddleware, roleMiddleware("employee"), getProfi
 router.put("/profile-data", authMiddleware, roleMiddleware("employee"),
         upload.fields([
             { name: "profileImage", maxCount: 1 },
-            { name: "coverImage", maxCount: 1 }
+            { name: "coverImage", maxCount: 1 },
+            { name: "certifications", maxCount: 10 }
         ]), updateProfile); 
 
 module.exports = router;
