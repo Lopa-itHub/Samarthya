@@ -5,6 +5,8 @@ import ProfileHeader from '../../components/profile/shared/ProfileHeader'
 import EmployeeInfo from '../../components/profile/employee/EmployeeInfo'
 import EmployerInfo from '../../components/profile/employer/EmployerInfo'
 
+import VerificationBadge from '../../components/profile/shared/VerificationBadge'
+
 import About from '../../components/profile/shared/About'
 import ContactInfo from '../../components/profile/shared/ContactInfo'
 
@@ -15,6 +17,9 @@ import JobsCategoryPosted from '../../components/profile/employer/JobsCategoryPo
 import HiringHistory from '../../components/profile/employer/HiringHistory'
 import ReviewSection from '../../components/profile/shared/ReviewSection'
 import TrustScoreDetails from '../../components/profile/shared/TrustScoreDetails'
+
+import Certifications from '../../components/profile/employee/Certifications'
+import ProfessionalLinks from '../../components/profile/employee/ProfessionalLinks'
 
 
 const ProfilePage = ({currentUser, user, profile }) => {
@@ -28,6 +33,10 @@ const ProfilePage = ({currentUser, user, profile }) => {
             ? <EmployeeInfo user={user} profile={profile} />
             : <EmployerInfo user={user} profile={profile} />
           }
+
+          <div>
+            <VerificationBadge/>
+          </div>
 
       </ProfileHeader>
 
@@ -45,6 +54,14 @@ const ProfilePage = ({currentUser, user, profile }) => {
             <>
                 <div>
                   <Skills profile={profile} />
+                </div>
+
+                <div>
+                  <Certifications profile={profile} />
+                </div>
+
+                <div>
+                  <ProfessionalLinks profile={profile} />
                 </div>
 
                 <div>

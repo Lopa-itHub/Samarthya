@@ -42,6 +42,8 @@ async function updateProfile(req, res) {
 
     let profileImageUrl;
     let coverImageUrl;
+    let certifications = [];
+    let existingCertifications = [];
 
     // Upload profile image (if exists)
     if (req.files?.profileImage?.[0]) {
@@ -99,22 +101,87 @@ async function updateProfile(req, res) {
       coverImageUrl = result.url;
     }
 
+
     const {
       name,
-      email,
       phone,
       category,
       jobType,
+      experience,
+      gender,
       location,
       openToWork,
       about,
-      skills
+      skills,
+      languages,
+      professionalLinks,
+      certificationTitles,
+      existingCertificationUrls
     } = req.body;
+
+    const parsedTitles = Array.isArray(certificationTitles)
+      ? certificationTitles
+      : certificationTitles
+        ? [certificationTitles]
+        : [];
+
+    const parsedExistingUrls = Array.isArray(existingCertificationUrls)
+      ? existingCertificationUrls
+      : existingCertificationUrls
+        ? [existingCertificationUrls]
+        : [];
+
+
+    // certifications upload
+    if (req.files?.certifications) {
+
+      for (const [index, file] of req.files.certifications.entries()) {
+
+        const allowedTypes = [
+          "image/jpeg",
+          "image/png",
+          "image/webp",
+          "application/pdf"
+        ];
+
+        if (
+          !allowedTypes.includes(
+            file.mimetype
+          )
+        ) {
+
+          return res.status(400).json({
+            message:
+              "Only JPG, PNG, WEBP and PDF files are allowed"
+          });
+
+        }
+
+        const result = await uploadFile(
+
+          file.buffer,
+
+          file.originalname,
+
+          "/samarthya/certifications"
+
+        );
+
+        
+
+        certifications.push({
+          title: parsedTitles[index] || file.originalname,
+          fileUrl: result.url
+        });
+
+      }
+
+    }
+
 
     // Update USERS collection
     await User.findByIdAndUpdate(userId, {
       name,
-      email,
       ...(profileImageUrl && { profileImage: profileImageUrl })
     });
 
@@ -125,6 +192,40 @@ async function updateProfile(req, res) {
         ? skills.split(",").map(s => s.trim())
         : [];
 
+    const parsedLanguages = Array.isArray(languages)
+      ? languages
+      : languages
+        ? languages.split(",").map(l => l.trim())
+        : [];
+
+
+    existingCertifications = parsedTitles
+    .map((title, index) => ({
+
+      title,
+
+      fileUrl:
+        parsedExistingUrls[index]
+
+    }))
+
+  .filter(cert => cert.fileUrl);
+
+    let parsedProfessionalLinks = [];
+
+    try {
+
+      parsedProfessionalLinks =
+        professionalLinks
+          ? JSON.parse(professionalLinks)
+          : [];
+
+    } catch {
+
+      parsedProfessionalLinks = [];
+
+    }
+
     // Update EMPLOYEE PROFILE
     const updatedProfile = await EmployeeProfile.findOneAndUpdate(
       { userId },
@@ -132,11 +233,19 @@ async function updateProfile(req, res) {
         phone,
         category,
         jobType,
+        experience,
+        gender,
         location,
         openToWork,
         about,
         skills: parsedSkills,
-        ...(coverImageUrl && { coverImage: coverImageUrl })
+        languages: parsedLanguages,
+        certifications: [
+          ...existingCertifications,
+          ...certifications
+        ],
+        professionalLinks: parsedProfessionalLinks,
+        ...(coverImageUrl && { coverImage: coverImageUrl }),
       },
       { upsert: true, returnDocument: "after" }
     );
@@ -147,12 +256,6 @@ async function updateProfile(req, res) {
     });
 
   } catch (err) {
-    // duplicate email error
-    if (err.code === 11000) {
-      return res.status(409).json({
-        message: "Email already exists"
-      });
-    }
     console.log(err);
     res.status(500).json({ message: "Server error" });
   }

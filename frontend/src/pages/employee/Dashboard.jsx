@@ -13,6 +13,8 @@ import TrustScoreCard from "../../components/employee/dashboard/TrustScoreCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+import { calculateProfileCompletion } from '../../utils/employeeProfileCompletion';
+
 const Dashboard = () => {
 
   const [user, setUser] = useState(null);
@@ -36,6 +38,12 @@ const Dashboard = () => {
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
+  const completion =
+  calculateProfileCompletion(
+    user,
+    profile
+  );
+
   return (
 
       <div className="space-y-8">
@@ -52,44 +60,9 @@ const Dashboard = () => {
               <DashboardIntro/>
             </div>
 
-            {/* Complete profile */}
-            <div>
-              <CompleteProfile/>
-            </div>
-            
-
-            {/* Stats */}
+            {/* Complete profile desktop view */}
             <div className="hidden sm:block">
-              <div className="
-                grid
-                grid-cols-1
-                md:grid-cols-2
-                lg:grid-cols-4
-                gap-5
-                mt-10
-              ">
-
-                <StatsCard
-                  title="Jobs Applied"
-                  value="5"
-                />
-
-                <StatsCard
-                  title="Active Jobs"
-                  value="2"
-                />
-
-                <StatsCard
-                  title="Completed Jobs"
-                  value="8"
-                />
-
-                <StatsCard
-                  title="Trust Score"
-                  value="4.0 ⭐"
-                />
-
-              </div>
+              <CompleteProfile completion={completion}/>
             </div>
 
           </div>
@@ -104,11 +77,16 @@ const Dashboard = () => {
 
         </div>
 
-        {/* mobile view Stats */}
+        {/* Complete profile desktop view */}
         <div className="block sm:hidden">
+          <CompleteProfile completion={completion}/>
+        </div>
+
+        {/* mobile view Stats */}
+        <div>
         <div className="
           grid
-          grid-cols-2 lg:grid-cols-4 gap-5
+          grid-cols-2 lg:grid-cols-4 gap-10
           mt-10
         ">
 
