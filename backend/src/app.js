@@ -21,6 +21,7 @@ const applicationRoutes = require("./routes/application.routes");
 const profileRoutes = require("./routes/profile.routes");
 
 const blockRoutes= require("./routes/block.routes");
+const savedJobRoutes = require("./routes/savedJob.routes");
 
 const app = express();
 
@@ -53,5 +54,6 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/search", searchRoutes);
 
 app.use("/api/block", blockRoutes);
+app.use("/api/savedjobs", savedJobRoutes);
 
 module.exports = app;
