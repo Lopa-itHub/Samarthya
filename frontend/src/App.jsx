@@ -21,6 +21,8 @@ import PublicProfile from './pages/profile/PublicProfile';
 
 import Search from './pages/search/Search';
 
+import UserProfileView from './pages/profile/UserProfileView';
+
 import ProtectedRoute from './components/protectedRoutes/ProtectedRoute'
 
 // ✅ Employee pages
@@ -83,6 +85,8 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<ContactUs />} />
 
+        
+
 
 
         {/* ================= EMPLOYEE ================= */}
@@ -101,6 +105,8 @@ const App = () => {
           <Route path="edit-profile" element={<EmployeeEditProfile />} />
           <Route path="search" element={<Search />} />
           <Route path="profile/:userId" element={<PublicProfile />} />
+          <Route path="profile-view/:userId" element={<UserProfileView/>} />
+
           <Route path="/employee/job/:jobId" element={<JobDetails />} />
           <Route path="/employee/saved-jobs" element={<SavedJobs />} />
           
@@ -124,6 +130,7 @@ const App = () => {
           <Route path="edit-profile" element={<EmployerEditProfile />} />
           <Route path="search" element={<Search />} />
           <Route path="profile/:userId" element={<PublicProfile />} />
+          <Route path="profile-view/:userId" element={<UserProfileView/>} />
           <Route path="view-applicants" element={<ApplicantsPage />} />
 
         </Route>
@@ -143,6 +150,7 @@ const App = () => {
           <Route path="edit-data" element={<AdminEditData />} />
           <Route path="search" element={<Search />} />
           <Route path="profile/:userId" element={<PublicProfile />} />
+          <Route path="profile-view/:userId" element={<UserProfileView/>} />
 
         </Route>
       </Routes>
