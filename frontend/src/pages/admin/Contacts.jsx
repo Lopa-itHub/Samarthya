@@ -102,7 +102,7 @@ const Contacts = () => {
           <h1
             className="
             text-4xl
-            font-extrabold
+            font-extrabold leading-normal
             bg-gradient-to-r
             from-cyan-600
             via-blue-600

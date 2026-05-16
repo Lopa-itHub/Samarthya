@@ -106,7 +106,7 @@ const Users = () => {
           <h1
             className="
             text-3xl lg:text-4xl
-            font-extrabold
+            font-extrabold leading-normal
             bg-linear-to-r
             from-cyan-600
             via-blue-600
