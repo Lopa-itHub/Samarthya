@@ -15,7 +15,7 @@ const About = () => {
             className="
             text-4xl sm:text-5xl
             font-extrabold leading-normal
-            bg-gradient-to-r from-cyan-600 via-blue-600 to-violet-600 bg-clip-text text-transparent mb-5
+            bg-linear-to-r from-cyan-600 via-blue-600 to-violet-600 bg-clip-text text-transparent mb-5
           "
           >
             About Samarthya
@@ -67,7 +67,7 @@ const About = () => {
 
         <div
           className="
-          bg-gradient-to-r
+          bg-linear-to-r
           from-cyan-600
           to-blue-700
           rounded-3xl
@@ -318,7 +318,7 @@ const About = () => {
         <div
           className="
           text-center
-          bg-gradient-to-r
+          bg-linear-to-r
           from-violet-600
           to-blue-700
           rounded-3xl
