@@ -1,6 +1,6 @@
 import React from 'react'
 import SocketProvider from './context/SocketContext';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
 
 import LandingPage from './pages/public/LandingPage'
@@ -77,7 +77,7 @@ const App = () => {
 
         <ScrollToTop />
 
-        <ToastContainer />
+      <ToastContainer />
       
         <Routes>
           {/* Public */}
