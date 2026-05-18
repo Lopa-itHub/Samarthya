@@ -11,47 +11,59 @@ import ProfileActions from '../shared/ProfileActions'
 import ConnectionsCount from './ConnectionsCount';
 
 
-const ProfileHeader = ({currentUser, user, profile, isPublicView, children}) => {
+const ProfileHeader = ({ currentUser, user, profile, isPublicView, children }) => {
+  const loggedInUser = JSON.parse(localStorage.getItem("user"));
   return (
     <div className="w-full min-h-100 rounded-xl shadow-md bg-white relative overflow-visible">
 
-        {/* Cover Image */}
-        <div>
-          <CoverImage coverImage={profile?.coverImage} />
+      {/* Cover Image */}
+      <div>
+        <CoverImage coverImage={profile?.coverImage} />
+      </div>
+
+      {/* content */}
+      <div className="relative grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-8 p-6 pt-8">
+
+        {/* profile image */}
+        <div className="flex justify-center md:justify-start">
+          <ProfileImage profileImage={user?.profileImage} />
         </div>
 
-        {/* content */}
-        <div className="relative grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-14 p-6 pt-8">
-
-          {/* profile image */}
-          <div className="flex justify-center lg:justify-start">
-            <ProfileImage profileImage={user?.profileImage} />
-          </div>
-
-          {/* employee info */}
+        {/* employee info */}
+        <div className="flex flex-col lg:mt-auto">
+          {children}
           <div>
-            {children}
-            <div>
-              <VerificationBadge/>
-            </div>
+            <VerificationBadge />
           </div>
-
-          {/* trust card */}
-          <div className="flex items-end">
-            <TrustCard/>
-          </div>
-
-          {/* action buttons */}
-          <div className="flex items-end justify-end lg:justify-e d text-sm lg:text-md relative">
-            <ProfileActions currentUser={currentUser} viewedUser={user} isPublicView={isPublicView}/>
-          </div>
-
-
-          <div>
-            <ConnectionsCount userId={user?._id}/>
-          </div>
-          
         </div>
+
+        {/* trust card */}
+        <div className="flex mt-auto">
+          <TrustCard />
+        </div>
+
+        {/* action buttons */}
+        <div className="flex items-end justify-end lg:justify-e d text-sm lg:text-md relative">
+          <ProfileActions currentUser={currentUser} viewedUser={user} isPublicView={isPublicView} />
+        </div>
+
+        <div className='mt-auto'>
+          <ConnectionsCount userId={user?._id} />
+        </div>
+
+        <div></div>
+        <div></div>
+
+        <div className='ms-auto mt-auto'>
+          <Link
+            to={`/${loggedInUser.role}/posts/${user._id}`}
+            className="bg-cyan-600 text-white px-5 py-2 rounded-lg"
+          >
+            Posts
+          </Link>
+        </div>
+
+      </div>
 
     </div>
   )

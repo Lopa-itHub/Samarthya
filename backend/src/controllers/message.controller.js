@@ -25,6 +25,18 @@ async function sendMessage(req, res) {
     const text =
       req.body?.text || "";
 
+    const sharedImage =
+      req.body?.sharedImage || "";
+
+    const sharedPostId =
+      req.body?.sharedPostId || "";
+
+    const sharedAuthor =
+      req.body?.sharedAuthor || "";
+
+    const sharedAuthorImage =
+      req.body?.sharedAuthorImage || "";
+
 
 
     const sender =
@@ -156,7 +168,20 @@ async function sendMessage(req, res) {
 
         text,
 
-        image: imageUrl
+        image: imageUrl || sharedImage || "",
+
+        sharedPost: {
+
+          postId:
+            sharedPostId,
+
+          author:
+            sharedAuthor,
+
+          authorImage:
+            sharedAuthorImage
+
+        }
 
       });
 

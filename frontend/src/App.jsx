@@ -33,6 +33,10 @@ import MyConnectionsPage from './pages/messages/MyConnectionsPage';
 
 import AdminList from './pages/messages/AdminList'
 
+import FeedsPage from './pages/feed/FeedsPage'
+import UserPostsPage from './pages/feed/UserPostsPage';
+import SinglePostPage from './components/feed/SinglePostPage';
+
 import ProtectedRoute from './components/protectedRoutes/ProtectedRoute'
 
 // ✅ Employee pages
@@ -113,6 +117,9 @@ const App = () => {
             <Route path="notifications" element={<NotificationsPage/>} />
             <Route path="messages" element={<MessagesLayout/>} />
             <Route path="my-connections" element={<MyConnectionsPage/>} />
+            <Route path="feeds" element={<FeedsPage/>} />
+            <Route path="posts/:userId" element={<UserPostsPage />}/>
+            <Route path="post/:postId" element={<SinglePostPage/>}/>
 
 
 
@@ -143,6 +150,9 @@ const App = () => {
             <Route path="notifications" element={<NotificationsPage/>} />
             <Route path="messages" element={<MessagesLayout/>} />
             <Route path="my-connections" element={<MyConnectionsPage/>} />
+            <Route path="feeds" element={<FeedsPage/>} />
+            <Route path="posts/:userId" element={<UserPostsPage />}/>
+            <Route path="post/:postId" element={<SinglePostPage/>}/>
 
 
           </Route>
