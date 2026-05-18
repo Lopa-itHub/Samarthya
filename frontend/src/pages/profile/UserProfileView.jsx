@@ -1,94 +1,94 @@
 // UserProfileView.jsx
 
-import React,{useEffect,useState} from "react";
-import {useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 import ProfilePage from "./ProfilePage";
 
-const UserProfileView=()=>{
+const UserProfileView = () => {
 
-const {userId}=useParams();
+    const { userId } = useParams();
 
-const [user,setUser]=useState(null);
-const [profile,setProfile]=useState(null);
+    const [user, setUser] = useState(null);
+    const [profile, setProfile] = useState(null);
 
-const currentUser=
-JSON.parse(
-localStorage.getItem("user")
-);
+    const currentUser =
+        JSON.parse(
+            localStorage.getItem("user")
+        );
 
-useEffect(()=>{
+    useEffect(() => {
 
-fetchProfile();
+        fetchProfile();
 
-},[userId]);
+    }, [userId]);
 
-async function fetchProfile(){
+    async function fetchProfile() {
 
-try{
+        try {
 
-const res=
-await axios.get(
+            const res =
+                await axios.get(
 
-`http://localhost:3000/api/profile/${userId}`,
+                    `http://localhost:3000/api/profile/${userId}`,
 
-{
-withCredentials:true
-}
+                    {
+                        withCredentials: true
+                    }
 
-);
+                );
 
-setUser(res.data.user);
+            setUser(res.data.user);
 
-setProfile(
-res.data.profile
-);
+            setProfile(
+                res.data.profile
+            );
 
-}
+        }
 
-catch(err){
+        catch (err) {
 
-console.log(err);
+            console.log(err);
 
-}
+        }
 
-}
+    }
 
-if(!user){
+    if (!user) {
 
-return <p>Loading...</p>
+        return <p>Loading...</p>
 
-}
+    }
 
-return(
+    return (
 
-<div>
+        <div>
 
-<button
-onClick={()=>
-window.history.back()
-}
-className="
+            <button
+                onClick={() =>
+                    window.history.back()
+                }
+                className="
 mb-4
 text-cyan-700
 "
->
+            >
 
-← Back
+                ← Back
 
-</button>
+            </button>
 
-<ProfilePage
-currentUser={currentUser}
-user={user}
-profile={profile}
-isPublicView={true}
-/>
+            <ProfilePage
+                currentUser={currentUser}
+                user={user}
+                profile={profile}
+                isPublicView={true}
+            />
 
-</div>
+        </div>
 
-);
+    );
 
 };
 

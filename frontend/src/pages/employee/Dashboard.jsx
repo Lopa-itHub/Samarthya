@@ -23,12 +23,25 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/employee/dashboard", {
+    axios.get("http://localhost:3000/api/employee/profile-data", {
       withCredentials: true
     })
     .then((res) => {
       setUser(res.data.user);
       setProfile(res.data.profile);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.log(err);
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/employee/dashboard", {
+      withCredentials: true
+    })
+    .then((res) => {
       setDashboardData(res.data);
       setLoading(false);
     })
@@ -37,6 +50,7 @@ const Dashboard = () => {
       setLoading(false);
     });
   }, []);
+
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 

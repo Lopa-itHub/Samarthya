@@ -5,7 +5,7 @@ const messageSchema = new mongoose.Schema(
 
         sender: {
 
-            type:mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
 
             ref: "users",
 
@@ -15,7 +15,7 @@ const messageSchema = new mongoose.Schema(
 
         receiver: {
 
-            type:mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
 
             ref: "users",
 
@@ -29,14 +29,20 @@ const messageSchema = new mongoose.Schema(
 
         },
 
-        image:{
-            type:String
+        image: {
+            type: String
         },
 
-        location:{
-            latitude:Number,
-            longitude:Number
-        }
+        location: {
+            latitude: Number,
+            longitude: Number
+        },
+
+        sharedPost: {
+            postId: String,
+            author: String,
+            authorImage: String
+        },
 
     },
 

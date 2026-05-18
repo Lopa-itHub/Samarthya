@@ -7,6 +7,8 @@ import React,
 }
     from "react";
 
+import { Link } from "react-router-dom";
+
 import axios from "axios";
 
 import { SocketContext } from "../../context/SocketContext";
@@ -37,6 +39,12 @@ const ChatPage = ({ userId }) => {
     const [
         selectedImage,
         setSelectedImage
+    ] = useState(null);
+
+
+    const [
+        sharedPost,
+        setSharedPost
     ] = useState(null);
 
 
@@ -119,6 +127,29 @@ const ChatPage = ({ userId }) => {
     }, [messages]);
 
 
+    useEffect(() => {
+
+        const post =
+
+            JSON.parse(
+
+                localStorage.getItem(
+                    "sharePost"
+                )
+
+            );
+
+        if (post) {
+
+            setSharedPost(
+                post
+            );
+
+        }
+
+    }, []);
+
+
 
 
     async function
@@ -162,6 +193,8 @@ const ChatPage = ({ userId }) => {
             !text.trim()
             &&
             !selectedImage
+            &&
+            !sharedPost
         ) return;
 
 
@@ -175,10 +208,45 @@ const ChatPage = ({ userId }) => {
                 userId
             );
 
+            let finalText = text;
+
+            if (sharedPost) {
+
+                finalText =
+                    `Shared post:\n${sharedPost.text}`;
+
+
+                if (sharedPost.image) {
+
+                    formData.append(
+                        "sharedImage",
+                        sharedPost.image
+                    );
+
+                }
+
+                formData.append(
+                    "sharedPostId",
+                    sharedPost.postId
+                );
+
+                formData.append(
+                    "sharedAuthor",
+                    sharedPost.author
+                );
+
+                formData.append(
+                    "sharedAuthorImage",
+                    sharedPost.authorImage
+                );
+
+            }
+
             formData.append(
                 "text",
-                text
+                finalText
             );
+
 
             if (selectedImage) {
 
@@ -215,6 +283,12 @@ const ChatPage = ({ userId }) => {
 
             setSelectedImage(
                 null
+            );
+
+            setSharedPost(null);
+
+            localStorage.removeItem(
+                "sharePost"
             );
 
         }
@@ -355,7 +429,7 @@ ${senderId === currentUser.id
 
                                                 :
 
-                                                "bg-gray-200"
+                                                "bg-white text-black border border-blue-200"
 
                                             }
 
@@ -365,26 +439,85 @@ ${senderId === currentUser.id
 
                                         <div>
 
-                                            {m.image && (
+                                            {
+                                                m.sharedPost?.postId ? (
 
-                                                <img
+                                                    <Link
+                                                        to={`/${currentUser.role}/post/${m.sharedPost.postId}`}
+                                                    >
 
-                                                    src={m.image}
+                                                        <div
+                                                            className="
+                bg-white
+                rounded-xl
+                p-3
+                mb-2
+                border
+                border-blue-700
+                cursor-pointer
+                hover:border-blue-300
+                text-black
+                "
+                                                        >
 
-                                                    className="
-            max-w-35
-sm:max-w-55
-w-full
-rounded-lg
-mb-2
-object-cover
-            "
+                                                            <div className="flex items-center gap-2 mb-2">
 
-                                                />
+                                                                <img
+                                                                    src={m.sharedPost.authorImage}
+                                                                    className="w-8 h-8 rounded-full"
+                                                                />
 
-                                            )}
+                                                                <p className="text-sm font-semibold">
+                                                                    {m.sharedPost.author}
+                                                                </p>
 
-                                            {m.text}
+                                                            </div>
+
+                                                            {m.image && (
+
+                                                                <img
+                                                                    src={m.image}
+                                                                    className="
+                        rounded-lg
+                        max-h-40
+                        mb-2
+                        "
+                                                                />
+
+                                                            )}
+
+                                                            <p>{m.text.replace("Shared post:\n", "")}</p>
+
+                                                        </div>
+
+                                                    </Link>
+
+                                                ) : (
+
+                                                    <>
+
+                                                        {m.image && (
+
+                                                            <img
+                                                                src={m.image}
+                                                                className="
+                    max-w-35
+                    sm:max-w-55
+                    w-full
+                    rounded-lg
+                    mb-2
+                    object-cover
+                    "
+                                                            />
+
+                                                        )}
+
+                                                        {m.text}
+
+                                                    </>
+
+                                                )
+                                            }
 
 
                                             {m.location && (
@@ -478,6 +611,95 @@ py-3
                         </div>
 
                     )
+                }
+
+                {
+                    sharedPost &&
+
+                    <div
+                        className="
+bg-cyan-50
+border
+rounded-xl
+p-3
+mb-3
+"
+                    >
+
+                        <p
+                            className="
+font-semibold
+text-cyan-700
+"
+                        >
+                            Sharing post
+                        </p>
+
+                        <div className="flex items-center gap-2 mb-2">
+
+                            <img
+                                src={sharedPost.authorImage}
+                                className="
+        w-8
+        h-8
+        rounded-full
+        "
+                            />
+
+                            <div>
+
+                                <p className="font-medium">
+                                    {sharedPost.author}
+                                </p>
+
+                                <p className="text-xs text-gray-500">
+                                    Shared post
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        {
+                            sharedPost.image &&
+
+                            <img
+                                src={sharedPost.image}
+                                className="
+rounded-lg
+max-h-36
+mb-2
+"
+                            />
+                        }
+
+                        <p>{sharedPost.text}</p>
+
+                        <button
+
+                            onClick={() => {
+
+                                setSharedPost(null);
+
+                                localStorage.removeItem(
+                                    "sharePost"
+                                );
+
+                            }}
+
+                            className="
+text-red-500
+text-xs
+mt-2
+"
+                        >
+
+                            Cancel
+
+                        </button>
+
+                    </div>
+
                 }
 
                 <div
