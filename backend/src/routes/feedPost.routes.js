@@ -1,22 +1,29 @@
 const express =
-require("express");
+    require("express");
 
 const router =
-express.Router();
+    express.Router();
 
 const multer =
-require("multer");
+    require("multer");
 
 const authMiddleware =
-require("../middlewares/auth.middleware");
+    require("../middlewares/auth.middleware");
 
 const {
 
-    createPost
+    createPost,
+    getFeed,
+    getUserPosts,
+    toggleLike,
+    deletePost,
+    updatePost,
+    addComment,
+    getSinglePost
 
 } = require(
 
-"../controllers/feedPost.controller"
+    "../controllers/feedPost.controller"
 
 );
 
@@ -24,7 +31,7 @@ const {
 const upload = multer({
 
     storage:
-    multer.memoryStorage()
+        multer.memoryStorage()
 
 });
 
@@ -45,6 +52,69 @@ router.post(
 );
 
 
+router.get(
+
+    "/feed",
+
+    authMiddleware,
+
+    getFeed
+
+);
+
+router.get(
+    "/user/:userId",
+    authMiddleware,
+    getUserPosts
+);
+
+
+router.put(
+
+    "/like/:id",
+
+    authMiddleware,
+
+    toggleLike
+
+);
+
+router.delete(
+    "/:id",
+    authMiddleware,
+    deletePost
+);
+
+
+router.put(
+
+    "/:postId",
+
+    authMiddleware,
+
+    updatePost
+
+);
+
+
+router.put(
+
+    "/comment/:postId",
+
+    authMiddleware,
+
+    addComment
+
+);
+
+
+router.get(
+    "/post/:postId",
+    authMiddleware,
+    getSinglePost
+);
+
+
 
 module.exports =
-router;
+    router;
