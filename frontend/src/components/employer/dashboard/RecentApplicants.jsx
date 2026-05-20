@@ -167,11 +167,9 @@ const RecentApplicants = () => {
                     </span>
 
                     <button
-                      onClick={() =>
-                        navigate(
-                        `/employer/applicants?application=${application._id}`
-                        )
-                      }
+                     onClick={() =>
+                        navigate("/employer/applicants")
+                        }
 
                       className="
                         text-cyan-600
