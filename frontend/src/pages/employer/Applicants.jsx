@@ -282,9 +282,6 @@ const [
 
 
 
-
-
-
   return (
 
     <div className="p-6 bg-slate-100 min-h-screen">
@@ -406,7 +403,7 @@ const [
                   src={
                     item.employeeProfileImage ||
 
-                    "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                    "https://ik.imagekit.io/fybgmadbnl26/samarthya/avatar-cover/ChatGPT%20Image%20May%207,%202026,%2001_17_32%20AM-resized.PNG"
                   }
 
                   alt=""
@@ -509,7 +506,7 @@ const [
                         font-medium
                       ">
 
-                        🌈 Hiring this employee qualifies for gaining +1 point under inclusive hiring.
+                        🌈 Hiring this employee qualifies for a 5% payment discount under inclusive hiring.
 
                       </div>
                     )
