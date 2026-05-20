@@ -6,7 +6,11 @@ const {employeeProfileController, getProfile, updateProfile} = require("../contr
 const employeeApplicationsController = require("../controllers/employeeApplications.controller");
 const employeeFindJobsController = require("../controllers/employeeFindJobs.controller");
 const employeeTrustScoreController = require("../controllers/employeeTrustScore.controller");
-const employeeWorkHistoryController = require("../controllers/employeeWorkHistory.controller")
+const {
+  employeeWorkHistoryController,
+} = require(
+  "../controllers/employeeWorkHistory.controller"
+);
 
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });

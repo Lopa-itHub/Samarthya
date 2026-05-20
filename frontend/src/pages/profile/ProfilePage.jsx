@@ -12,20 +12,22 @@ import About from '../../components/profile/shared/About'
 import ContactInfo from '../../components/profile/shared/ContactInfo'
 
 import Skills from '../../components/profile/employee/Skills'
-import WorkHistory from '../../components/profile/employee/WorkHistory'
 
 import JobsCategoryPosted from '../../components/profile/employer/JobsCategoryPosted'
-import HiringHistory from '../../components/profile/employer/HiringHistory'
 import ReviewSection from '../../components/profile/shared/ReviewSection'
-import TrustScoreDetails from '../../components/profile/shared/TrustScoreDetails'
 
 import Certifications from '../../components/profile/employee/Certifications'
 import ProfessionalLinks from '../../components/profile/employee/ProfessionalLinks'
-
+import TrustCard from '../../components/profile/shared/TrustCard'
 
 const ProfilePage = ({ currentUser, user, profile, isPublicView }) => {
 
   const [showVerification, setShowVerification] = useState(false);
+
+  if (!user?._id) {
+
+    return null;
+  }
 
   const applyVerification =
     async () => {
@@ -122,9 +124,6 @@ const ProfilePage = ({ currentUser, user, profile, isPublicView }) => {
                 <ProfessionalLinks profile={profile} />
               </div>
 
-              <div>
-                <WorkHistory />
-              </div>
             </>
           )
           : (
@@ -133,20 +132,21 @@ const ProfilePage = ({ currentUser, user, profile, isPublicView }) => {
                 <JobsCategoryPosted profile={profile} />
               </div>
 
-              <div>
-                <HiringHistory />
-              </div>
             </>
           )
       }
 
       <div>
-        <ReviewSection />
+        <ReviewSection
+          userId={user?._id}
+        />
       </div>
-
-      <div>
-        <TrustScoreDetails />
-      </div>
+       <div>
+        <TrustCard
+          userId={user?._id}
+        />
+       </div>
+      
 
 
       {

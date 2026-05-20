@@ -12,7 +12,7 @@ const EmployeeInfo = ({user, profile}) => {
 
         {/* Job Type */}
         <p className="text-sm lg:text-md font-semibold text-gray-700">
-          Jog type: {profile?.jobType || "Not specified"}
+          Job type: {profile?.jobType || "Not specified"}
         </p>
 
         {/* Category */}

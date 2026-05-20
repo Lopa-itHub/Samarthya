@@ -26,6 +26,27 @@ const Applicants = () => {
   const [search, setSearch] =
     useState("");
 
+  const [
+  showReviewModal,
+  setShowReviewModal
+] = useState(false);
+
+const [
+  reviewApplicationId,
+  setReviewApplicationId
+] = useState(null);
+
+const [rating, setRating] =
+  useState(5);
+
+const [review, setReview] =
+  useState("");
+
+const [
+  reviewSubmitted,
+  setReviewSubmitted
+] = useState(false);
+
   useEffect(() => {
 
     fetchApplicants();
@@ -139,6 +160,12 @@ const Applicants = () => {
           "Work verified"
         );
 
+        setReviewApplicationId(id);
+
+        setShowReviewModal(true);
+
+        setReviewSubmitted(false);
+
         fetchApplicants();
 
         setSelectedApplicant(
@@ -159,7 +186,57 @@ const Applicants = () => {
 
     };
 
+     const submitReview =
+  async () => {
 
+    try {
+
+                const token =
+            localStorage.getItem("token");
+
+          await axios.post(
+
+            "http://localhost:3000/api/reviews/submit",
+
+            {
+              applicationId:
+                reviewApplicationId,
+
+              rating,
+
+              review,
+            },
+
+            {
+              headers: {
+                Authorization:
+                  `Bearer ${token}`
+              }
+            }
+          );
+
+      toast.success(
+        "Review submitted"
+      );
+      setReviewSubmitted(true);
+
+      setShowReviewModal(false);
+
+      setReview("");
+
+      setRating(5);
+
+    }
+
+    catch (error) {
+
+      console.log(error);
+
+      toast.error(
+        "Failed to submit review"
+      );
+    }
+  };
 
   const denyCompletion =
     async (id) => {
@@ -326,7 +403,7 @@ const Applicants = () => {
                   src={
                     item.employeeProfileImage ||
 
-                    "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                    "https://ik.imagekit.io/fybgmadbnl26/samarthya/avatar-cover/ChatGPT%20Image%20May%207,%202026,%2001_17_32%20AM-resized.PNG"
                   }
 
                   alt=""
@@ -429,10 +506,7 @@ const Applicants = () => {
                         font-medium
                       ">
 
-                        🌈 Hiring this employee
-                        qualifies for a
-                        5% payment discount
-                        under inclusive hiring.
+                        🌈 Hiring this employee qualifies for a 5% payment discount under inclusive hiring.
 
                       </div>
                     )
@@ -753,16 +827,14 @@ const Applicants = () => {
                               Status:
                             </span>
                             {" "}
-                            {
-                              selectedApplicant.status
-                            }
+                  
                           </p>
 
                         </div>
                       </div>
                     </div>
 
-                    {/* DUMMY PROFILE BUTTON */}
+                    {/* PROFILE BUTTON */}
 
                     <button
                       className="
@@ -790,10 +862,10 @@ const Applicants = () => {
                     &&
 
                     <div className="
-flex
-gap-5
-mt-8
-">
+                          flex
+                          gap-5
+                          mt-8
+                          ">
 
                       <button
                         onClick={() =>
@@ -804,15 +876,15 @@ mt-8
                         }
 
                         className="
-flex-1
-bg-green-500
-hover:bg-green-600
-text-white
-py-4
-rounded-2xl
-text-xl
-font-semibold
-"
+                        flex-1
+                        bg-green-500
+                        hover:bg-green-600
+                        text-white
+                        py-4
+                        rounded-2xl
+                        text-xl
+                        font-semibold
+                        "
                       >
 
                         Accept
@@ -829,15 +901,15 @@ font-semibold
                         }
 
                         className="
-flex-1
-bg-red-500
-hover:bg-red-600
-text-white
-py-4
-rounded-2xl
-text-xl
-font-semibold
-"
+                        flex-1
+                        bg-red-500
+                        hover:bg-red-600
+                        text-white
+                        py-4
+                        rounded-2xl
+                        text-xl
+                        font-semibold
+                        "
                       >
 
                         Reject
@@ -924,8 +996,160 @@ font-semibold
           </div>
         )
       }
+    {
+showReviewModal &&
+
+!reviewSubmitted && (
+
+<div className="
+fixed
+inset-0
+bg-black/40
+z-50
+flex
+justify-center
+items-center
+p-4
+">
+
+<div className="
+bg-white
+rounded-3xl
+w-full
+max-w-md
+p-6
+space-y-5
+">
+
+<h2 className="
+text-3xl
+font-bold
+">
+Leave Review
+</h2>
+
+<p className="
+text-slate-500
+">
+Rate your employer
+</p>
+
+<select
+
+value={rating}
+
+onChange={(e)=>
+setRating(e.target.value)
+}
+
+className="
+w-full
+border
+rounded-xl
+p-3
+"
+
+>
+
+<option value={5}>
+⭐⭐⭐⭐⭐
+</option>
+
+<option value={4}>
+⭐⭐⭐⭐
+</option>
+
+<option value={3}>
+⭐⭐⭐
+</option>
+
+<option value={2}>
+⭐⭐
+</option>
+
+<option value={1}>
+⭐
+</option>
+
+</select>
+
+<textarea
+
+value={review}
+
+onChange={(e)=>
+setReview(e.target.value)
+}
+
+placeholder="
+Write review...
+"
+
+className="
+w-full
+border
+rounded-xl
+p-4
+h-32
+"
+
+/>
+
+<div className="
+flex
+gap-4
+">
+
+<button
+
+onClick={()=>
+setShowReviewModal(false)
+}
+
+className="
+flex-1
+border
+rounded-xl
+py-3
+"
+
+>
+
+Cancel
+
+</button>
+
+<button
+
+onClick={submitReview}
+
+className="
+flex-1
+bg-cyan-600
+text-white
+rounded-xl
+py-3
+font-semibold
+"
+
+>
+
+Submit
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+)
+}
+
     </div>
   );
 };
+
+
 
 export default Applicants;

@@ -1,10 +1,9 @@
-import React from "react";
-
+import React from 'react'
 import {
     FiCheckCircle,
     FiAlertCircle
 }
-from "react-icons/fi";
+from 'react-icons/fi';
 
 const VerificationBadge = ({
 
@@ -17,70 +16,64 @@ const VerificationBadge = ({
 
         <div
             className="
-            flex
-            items-center
-            gap-2
-            mt-2
-            text-sm
-            "
+flex
+items-center
+gap-2
+mt-2
+text-sm
+cursor-pointer
+"
         >
 
-            {
+        {
 
-                user?.verificationStatus ===
-                "approved"
+            user?.isVerified ?
 
-                ?
+            <div
+            className="
+flex
+items-center
+gap-2
+text-blue-500
+font-medium
+"
+            >
 
-                <div
-                    className="
-                    flex
-                    items-center
-                    gap-2
-                    text-green-600
-                    font-medium
-                    "
-                >
+                <FiCheckCircle/>
 
-                    <FiCheckCircle />
+                <span>
 
-                    <span>
+                    Verified
 
-                        Verified
+                </span>
 
-                    </span>
+            </div>
 
-                </div>
+            :
 
-                :
+            <div
+            onClick={()=>onApply?.()}
+            className="
+flex
+items-center
+gap-2
+text-gray-500
+font-medium
+hover:text-cyan-600
+"
+            >
 
-                <div
+                <FiAlertCircle/>
 
-                    onClick={() => onApply?.()}
+                <span>
 
-                    className="
-                    flex
-                    items-center
-                    gap-2
-                    text-gray-500
-                    font-medium
-                    cursor-pointer
-                    hover:text-cyan-600
-                    "
+                    Not Verified
 
-                >
+                </span>
 
-                    <FiAlertCircle />
+            </div>
 
-                    <span>
-
-                        Not Verified
-
-                    </span>
-
-                </div>
-
-            }
+        }
 
         </div>
 
@@ -88,4 +81,4 @@ const VerificationBadge = ({
 
 }
 
-export default VerificationBadge;
+export default VerificationBadge
