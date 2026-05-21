@@ -380,7 +380,7 @@ min-h-0
                         messages.map(m => {
 
                             const senderId =
-                                m.sender?._id ||
+                                m.sender?.id ||
                                 m.sender?.toString() ||
                                 m.sender;
 
@@ -388,7 +388,7 @@ min-h-0
 
                                 <div
 
-                                    key={m._id}
+                                    key={m.id}
 
                                     className={`
 

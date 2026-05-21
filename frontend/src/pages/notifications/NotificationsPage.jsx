@@ -102,7 +102,7 @@ const NotificationsPage = () => {
 
                         n =>
 
-                            n._id === id
+                            n.id === id
 
                                 ?
 
@@ -212,7 +212,7 @@ const NotificationsPage = () => {
 
             // ADMIN REVIEW REQUEST
             case "review_request":
-                return `/admin/account-review?userId=${notification.sender?._id}`;
+                return `/admin/account-review?userId=${notification.sender?.id}`;
 
             // these should NOT be clickable
             case "account_unblocked":
@@ -222,7 +222,7 @@ const NotificationsPage = () => {
                 return null;
 
             default:
-                return `/${role}/profile-view/${notification.sender?._id}`;
+                return `/${role}/profile-view/${notification.sender?.id}`;
         }
     };
 
@@ -273,7 +273,7 @@ const NotificationsPage = () => {
                             (
 
                                 <Link
-                                    key={n._id}
+                                    key={n.id}
                                     to={link}
                                 >
 
@@ -284,7 +284,7 @@ const NotificationsPage = () => {
                                         }
 
                                         data-id={
-                                            n._id
+                                            n.id
                                         }
 
                                         data-read={
@@ -404,7 +404,7 @@ const NotificationsPage = () => {
                             (
 
                                 <div
-                                    key={n._id}
+                                    key={n.id}
                                 >
 
                                     <div
@@ -414,7 +414,7 @@ const NotificationsPage = () => {
                                         }
 
                                         data-id={
-                                            n._id
+                                            n.id
                                         }
 
                                         data-read={
