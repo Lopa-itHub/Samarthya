@@ -4,12 +4,12 @@ const bcrypt = require("bcryptjs");
 
 const generateOtp = require("../utils/generateOtp");
 const {
-sendOtpEmail
+    sendOtpEmail
 }
-=
-require(
-"../services/mail.service"
-);
+    =
+    require(
+        "../services/mail.service"
+    );
 
 
 async function registerUser(req, res) {
@@ -382,6 +382,21 @@ async function loginUser(req, res) {
                 "Account suspended"
 
         });
+
+    }
+
+    if (user.isDeactivated) {
+
+        return res.status(403)
+            .json({
+
+                message:
+                    "Account deactivated",
+
+                restoreUntil:
+                    user.restoreUntil
+
+            });
 
     }
 
@@ -801,6 +816,128 @@ async function getAllAdmins(req, res) {
 
 }
 
+
+async function deactivateAccount(
+    req,
+    res
+) {
+
+    try {
+
+        const restoreDate =
+            new Date();
+
+        restoreDate.setDate(
+            restoreDate.getDate() + 30
+        );
+
+        const user =
+            await User.findById(
+                req.user.id
+            );
+
+        if (!user) {
+
+            return res.status(404)
+                .json({
+
+                    message:
+                        "User not found"
+
+                });
+
+        }
+
+        user.isDeactivated = true;
+
+        user.deactivatedAt =
+            new Date();
+
+        user.restoreUntil =
+            restoreDate;
+
+        // logout from everywhere
+
+        user.tokenVersion += 1;
+
+        await user.save();
+
+        res.json({
+
+            message:
+                "Account deactivated"
+
+        });
+
+    }
+
+    catch (err) {
+
+        console.log(err);
+
+        res.status(500)
+            .json({
+
+                message:
+                    "Server error"
+
+            });
+
+    }
+
+}
+
+
+
+async function restoreAccount(
+    req,
+    res
+) {
+
+    try {
+
+        const user =
+            await User.findById(
+                req.user.id
+            );
+
+        if (!user) {
+
+            return res.status(404)
+                .json({
+
+                    message:
+                        "User not found"
+
+                });
+
+        }
+
+        user.isDeactivated = false;
+
+        user.deactivatedAt = null;
+
+        user.restoreUntil = null;
+
+        await user.save();
+
+        res.json({
+
+            message:
+                "Account restored"
+
+        });
+
+    }
+
+    catch (err) {
+
+        console.log(err);
+
+    }
+
+}
+
 module.exports = {
     registerUser,
     verifyOtp,
@@ -813,5 +950,7 @@ module.exports = {
     changePassword,
     requestEmailChange,
     verifyEmailChangeOtp,
-    getAllAdmins
+    getAllAdmins,
+    deactivateAccount,
+    restoreAccount
 }

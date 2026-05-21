@@ -28,4 +28,16 @@ router.put("/change-email", authMiddleware, authController.requestEmailChange);
 
 router.put("/verify-email-change", authMiddleware, authController.verifyEmailChangeOtp);
 
+router.put(
+"/deactivate",
+authMiddleware,
+authController.deactivateAccount
+);
+
+router.put(
+"/restore",
+authMiddleware,
+authController.restoreAccount
+);
+
 module.exports = router;
