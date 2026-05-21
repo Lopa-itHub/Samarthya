@@ -28,15 +28,15 @@ const usersSchema = new mongoose.Schema({
     },
 
     trustScore: {
-    type: Number,
-    default: 0,
+        type: Number,
+        default: 0,
     },
 
     totalReviews: {
         type: Number,
         default: 0,
     },
-    
+
     verificationStatus: {
         type: String,
         enum: ["none", "pending", "approved", "rejected"],
@@ -126,7 +126,7 @@ const usersSchema = new mongoose.Schema({
         default: 0
     },
 
-    
+
 
     appealHistory: [
 
@@ -158,6 +158,18 @@ const usersSchema = new mongoose.Schema({
 
         type: Date
 
+    },
+    isDeactivated: {
+        type: Boolean,
+        default: false
+    },
+
+    deactivatedAt: {
+        type: Date
+    },
+
+    restoreUntil: {
+        type: Date
     },
 },
     { timestamps: true }
